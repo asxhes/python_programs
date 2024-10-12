@@ -1,4 +1,3 @@
-
 # Lua is the superior programming language, Python scope indentations sucks bro
 # most disgusting program i've ever made some shit in here just doesn't make sense 
 import random
@@ -20,6 +19,7 @@ accountMade = False
 gameRunning = True
 positionalArray = [" "] * 9
 returnedToMenu = False 
+quitted = False
 
 def drawBoard(positionalArray): 
     for i in range(0, 9, 3): 
@@ -268,7 +268,7 @@ def ticTacToe(usernamesFile, passwordsFile, oldUsername, newUsername, usernameFi
             print("Please enter an INTEGER!")
             playerOne = input("(O) Enter a position where you'd like to go from 1-9: ")
 
-while True: #not loggedIn and not accountMade:
+while not quitted: #not loggedIn and not accountMade:
     if choice.isdigit():
         # Login:
         if choice == "1":
@@ -302,7 +302,7 @@ while True: #not loggedIn and not accountMade:
                         print("Successfully logged in")
                         
                         loggedIn = True 
-                        userChoice = input("1. Play Tic, Tac Toe, 2. Quit: ")
+                        userChoice = input("1. Play Tic, Tac, Toe 2. Return to Menu 3. Quit: ")
                         returnedToMenu = False 
 
                         while not returnedToMenu: 
@@ -317,13 +317,22 @@ while True: #not loggedIn and not accountMade:
                                 elif userChoice == "2":
                                     choice = input("1. Login 2. Create an Account 3. See User Data 4. Quit (Please enter 1, 2, 3 or 4): ")
                                     returnedToMenu = True 
-                                
+
                                 elif userChoice == "3":
                                     print("Have a nice day! :D")
-                                    break 
+                                    quitted = True 
+                                    break
+
+                                elif userChoice != "1" and userChoice != "2" and userChoice != "3":
+                                    print("Please enter a valid choice!")
+                                    userChoice = input("1. Play Tic, Tac, Toe 2. Return to Menu 3. Quit: ")
                             else:
-                                print("Please enter an INTEGER!")
-                            
+                                print("Please enter an INTEGER, that is a valid choice!")
+                                userChoice = input("1. Play Tic, Tac, Toe 2. Return to Menu 3. Quit: ")
+
+
+
+                        
 
                     elif j == len(passwordFileContents) - 1 and not loggedIn:
                         print("Your password was wrong, please try again!")
