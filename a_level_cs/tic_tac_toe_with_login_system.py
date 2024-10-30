@@ -50,11 +50,11 @@ def checkWinner(positionalArray):
         if positionalArray[combo[0]] == positionalArray[combo[1]] == positionalArray[combo[2]] != " ":
             winner = positionalArray[combo[0]]
             if winner == "O":
-                return 1  # Player wins
+                return 1 
             elif winner == "X":
-                return 2  # AI wins
+                return 2
     
-    return 0  # No winner yet
+    return 0
 
 def getAmountOfWins(fileContents, username):
     if username[0:username.find('|')] == username[0:username.find('|')]:
@@ -242,7 +242,7 @@ def ticTacToe(usernamesFile, passwordsFile, oldUsername, newUsername, usernameFi
                     if checkWinner(positionalArray) == 2:  # Assuming 2 = AI wins
                         if playCount == 0:
                             print("The AI won!")
-                            updateUserData(usernamesFile, passwordsFile, wins, losses, newUsername, usernameFileContents, passwordFileContents, usernameIndex, 1)
+                            updateUserData(usernamesFile, passwordsFile, wins, losses, newUsername, usernameFileContents, passwordFileContents, usernameIndex, 2)
                             break
 
                         elif playCount > 0: 
