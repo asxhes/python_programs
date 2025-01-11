@@ -1,6 +1,6 @@
-""
+'''
 just a cheeky way to help me understand tkinter :3
-""
+'''
 from tkinter import *
 from PIL import Image, ImageTk
 from pathlib import Path
