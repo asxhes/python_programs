@@ -1,0 +1,3 @@
+Shut the Box Game:
+
+- For buttons the user has already clicked/used set the button state to "DISABLED" in tkinter by doing state=DISABLED
