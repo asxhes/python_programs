@@ -1,5 +1,6 @@
 '''
-just a cheeky way to help me understand tkinter :3
+made this game to help learn tkinter and to improve my overall understanding of python 
+by asxhes
 '''
 from tkinter import *
 from PIL import Image, ImageTk
@@ -7,7 +8,6 @@ from pathlib import Path
 import random 
 from tkinter import messagebox # ts shit is so dumb why do i have to import messagebox from tkinter even though i imported everything??
 import threading
-import time 
 
 root = Tk()
 picturesFolder = Path("Pictures")
@@ -91,10 +91,10 @@ def gameLogic():
             resetFlag = False
             clicked = False
             oldDice = True
-
+            messagebox.showinfo("STBG", "Successfully reset chosen options!")
         if not clicked:
             if not oldDice:
-                dice = random.randint(1, 10)
+                dice = random.randint(2, 12)
             
             labels["rollValue"].config(text=f"The number you rolled is {dice}")
 
@@ -135,15 +135,49 @@ def gameLogic():
 
             
             if len(sum) > 1:
-                for i, v in enumerate(sum):
-                    if i < len(sum) - 1 and v + sum[i + 1] == dice:
-                        dice = random.randint(1, 10)
-                        btns[f"btn{str(sum[i])}"].config(state=DISABLED)
-                        btns[f"btn{str(sum[i + 1])}"].config(state=DISABLED)
-                        clicked = False
-                        sum.clear()
-                        break 
+                for i in range(len(sum)): # outer loop to get the current number we're trying to check    
+                    for j in range(i + 1, len(sum)): # inner loop checks every number after the current number (i+1) in the list and sees if it can equal dice
+                        if sum[i] == sum[j]:
+                            messagebox.showerror("STBG", "You cannot choose the same numbers twice!")
+                            clicked = False
+                            oldDice = True
+                            sum.clear()
                 
+                for i, v in enumerate(sum):
+                    if i < len(sum) - 1:
+                        if len(sum) == 2 and v + sum[i + 1] == dice:
+                            dice = random.randint(2, 12)
+                            btns[f"btn{str(sum[i])}"].config(state=DISABLED)
+                            btns[f"btn{str(sum[i + 1])}"].config(state=DISABLED)
+                            clicked = False
+                            sum.clear()
+                            break 
+
+                        while len(sum) == 2:
+                            pass
+
+                        if len(sum) == 3 and v + sum[i + 1] + sum[i + 2] == dice:
+                            dice = random.randint(2, 12)
+                            btns[f"btn{str(sum[i])}"].config(state=DISABLED)
+                            btns[f"btn{str(sum[i + 1])}"].config(state=DISABLED)
+                            btns[f"btn{str(sum[i + 2])}"].config(state=DISABLED)
+                            clicked = False
+                            sum.clear()
+                            break 
+
+                        while len(sum) == 3:
+                            pass
+
+                        if len(sum) == 4 and v + sum[i + 1] + sum[i + 2] + sum[i + 3] == dice:
+                            dice = random.randint(2, 12)
+                            btns[f"btn{str(sum[i])}"].config(state=DISABLED)
+                            btns[f"btn{str(sum[i + 1])}"].config(state=DISABLED)
+                            btns[f"btn{str(sum[i + 2])}"].config(state=DISABLED)
+                            btns[f"btn{str(sum[i + 3])}"].config(state=DISABLED)
+                            clicked = False
+                            sum.clear()
+                            break 
+
                 continue
 
         
