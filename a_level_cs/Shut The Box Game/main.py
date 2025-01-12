@@ -1,6 +1,6 @@
 '''
 made this game to help learn tkinter and to improve my overall understanding of python 
-by asxhes
+
 '''
 from tkinter import *
 from PIL import Image, ImageTk
@@ -12,7 +12,6 @@ import threading
 root = Tk()
 picturesFolder = Path("Pictures")
 
-root.title("STBG") 
 root.geometry("555x500") 
 root.resizable(False, False) # prevents the ui from being resized on height and width
 root.iconbitmap("dice.ico")
@@ -25,6 +24,7 @@ currentChoices = []
 
 gameLost = False  
 gameWon = False
+root.title("STBG") 
 
 for i,file in enumerate(picturesFolder.iterdir()):
     # file.stem gets the name of the file without the extension
@@ -45,15 +45,22 @@ bgLabel.place(relwidth=1, relheight=1)
 
 def checkWL(dice):
     currentChoices.clear()
+    global counter 
+    counter = 1
+    
     for item in btns:
         if btns[item].cget("state") != DISABLED: 
             num = int(item[3:])
             currentChoices.append(num) 
+        else:
+            counter += 1 
+
+    if counter == 10:
+        return "You won!"
 
     if len(currentChoices) == 1:
         if currentChoices[0] != dice:
             return "You lost!" # this means they lost
-
         else:
             return "You won!"
     else: 
@@ -73,7 +80,6 @@ def onClick(num):
     sum.append(num) 
 
 def reset():
-    #global sum, resetFlag 
     global resetFlag
     resetFlag = True
     sum.clear()
@@ -91,7 +97,7 @@ def gameLogic():
             resetFlag = False
             clicked = False
             oldDice = True
-            messagebox.showinfo("STBG", "Successfully reset chosen options!")
+
         if not clicked:
             if not oldDice:
                 dice = random.randint(2, 12)
@@ -125,6 +131,7 @@ def gameLogic():
             if len(sum) == 1:
                 if sum[0] == dice:
                     btns[f"btn{str(sum[0])}"].config(state=DISABLED)
+                    
                     clicked = False
                     sum.clear()
                     continue  
@@ -156,6 +163,7 @@ def gameLogic():
                         while len(sum) == 2:
                             pass
 
+                        
                         if len(sum) == 3 and v + sum[i + 1] + sum[i + 2] == dice:
                             dice = random.randint(2, 12)
                             btns[f"btn{str(sum[i])}"].config(state=DISABLED)
@@ -168,15 +176,19 @@ def gameLogic():
                         while len(sum) == 3:
                             pass
 
-                        if len(sum) == 4 and v + sum[i + 1] + sum[i + 2] + sum[i + 3] == dice:
-                            dice = random.randint(2, 12)
-                            btns[f"btn{str(sum[i])}"].config(state=DISABLED)
-                            btns[f"btn{str(sum[i + 1])}"].config(state=DISABLED)
-                            btns[f"btn{str(sum[i + 2])}"].config(state=DISABLED)
-                            btns[f"btn{str(sum[i + 3])}"].config(state=DISABLED)
-                            clicked = False
-                            sum.clear()
-                            break 
+                        try:
+                            if len(sum) == 4 and v + sum[i + 1] + sum[i + 2] + sum[i + 3] == dice:
+                                dice = random.randint(2, 12)
+                                btns[f"btn{str(sum[i])}"].config(state=DISABLED)
+                                btns[f"btn{str(sum[i + 1])}"].config(state=DISABLED)
+                                btns[f"btn{str(sum[i + 2])}"].config(state=DISABLED)
+                                btns[f"btn{str(sum[i + 3])}"].config(state=DISABLED)
+                                clicked = False
+                                sum.clear()
+                                break 
+                        except IndexError:
+                            print("clear the list brev")
+
 
                 continue
 
